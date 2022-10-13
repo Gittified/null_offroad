@@ -22,3 +22,7 @@ FiveM script to prevent offroad driving with vehicles that should not go there.
 ## Issues & Contributing
 
 Please open an issue to report a problem, if you would like to make changes open a pull request. I will only provide support through issues.
+
+## License
+
+Please respect the license!
