@@ -1,7 +1,9 @@
 # null_offroad
+
 FiveM script to prevent offroad driving with vehicles that should not go there.
 
 ## Features
+
 - Framework independent (You can modify the notifications in the config file)
 - Debugging mode to add more roads
 - Optimized code (0.00-0.01ms)
@@ -13,8 +15,10 @@ FiveM script to prevent offroad driving with vehicles that should not go there.
 - Synchronized between clients
 
 ## Dependencies
+
 - OneSync enabled
 - [OxMySQL](https://github.com/overextended/oxmysql) installed
 
 ## Issues & Contributing
+
 Please open an issue to report a problem, if you would like to make changes open a pull request. I will only provide support through issues.
