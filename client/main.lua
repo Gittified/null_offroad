@@ -120,6 +120,10 @@ end)
 
 TriggerEvent('chat:addSuggestion', '/offroad',
 	'Check if the current vehicle is added to the offroad list, or add/remove it from the list.', {
-	{ name = "action", help = "add|remove|debug: do you want to add or remove the current vehicle? Debug will toggle debugging mode. (optional)" },
-	{ name = "comment", help = "Do you want to add a comment in the database? (optional, action 'add' required)" }
+	{ name = "action",
+		help = Config.EnableSQL and
+			"add|remove|debug: do you want to add or remove the current vehicle? Debug will toggle debugging mode. (optional)" or
+			"debug: toggle debugging mode. (optional)" },
+	Config.EnableSQL and
+		{ name = "comment", help = "Do you want to add a comment in the database? (optional, action 'add' required)" }
 })
