@@ -107,8 +107,8 @@ RegisterCommand('offroad', function(source, args)
                     end
 
                     TriggerClientEvent(clientEvent('showNotification'), source,
-                        "Vehicle is on the list" .. comment ~= nil and ", comment: '" .. comment .. "' (SQL)" or
-                        " (Config)")
+                        "Vehicle is on the list" .. (comment ~= nil and ", comment: '" .. comment .. "' (SQL)" or
+                            " (Config)"))
                 else
                     TriggerClientEvent(clientEvent('showNotification'), source,
                         "Vehicle is not added to the list.")
