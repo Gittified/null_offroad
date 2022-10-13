@@ -111,7 +111,8 @@ CreateThread(function()
 
 				AddTextEntry('debuggingOffroad', ('Currently ' ..
 					(InTable(Config.GripRoads, surfaceMaterial) and 'ON' or 'OFF') ..
-					' road, type: ' .. surfaceMaterial .. ', effect: ' .. tostring(Entity(playerVehicle).state['noGrip'])))
+					' road, type: ' ..
+					surfaceMaterial .. ', effect: ' .. tostring(Entity(playerVehicle).state['noGrip'] and 'ON' or 'OFF')))
 				BeginTextCommandDisplayText('debuggingOffroad')
 				EndTextCommandDisplayText(0.5, 0.85)
 			end
