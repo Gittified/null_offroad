@@ -1,5 +1,6 @@
 fx_version 'cerulean'
 games { 'gta5' }
+lua54 'yes'
 
 author 'Nullified'
 
@@ -10,3 +11,8 @@ shared_scripts {
 
 server_scripts { '@oxmysql/lib/MySQL.lua', 'server/*.lua' }
 client_script 'client/*.lua'
+
+dependencies {
+	'/onesync',
+	'oxmysql'
+}
