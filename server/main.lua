@@ -1,9 +1,9 @@
-local offroadVehicles = {}
+local offroadVehicles = Config.BypassVehicles
 
 local function refreshVehicles()
     MySQL.query('SELECT model FROM vehicles_offroad', function(result)
         if result then
-            offroadVehicles = {}
+            offroadVehicles = Config.BypassVehicles
 
             for i = 1, #result do
                 table.insert(offroadVehicles, result[i].model)
