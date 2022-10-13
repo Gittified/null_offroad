@@ -15,6 +15,5 @@ server_scripts { '@oxmysql/lib/MySQL.lua', 'server/*.lua' }
 client_script 'client/*.lua'
 
 dependencies {
-	'/onesync',
-	'oxmysql'
+	'/onesync'
 }
