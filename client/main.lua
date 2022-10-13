@@ -99,6 +99,7 @@ CreateThread(function()
 		Wait(0)
 
 		if LocalPlayer.state['debuggingOffroad'] then
+			playerVehicle = GetVehiclePedIsIn(playerPed, false)
 			surfaceMaterial = (playerVehicle and playerVehicle ~= 0) and GetVehicleWheelSurfaceMaterial(playerVehicle, 1) or nil
 
 			if playerVehicle and surfaceMaterial then
