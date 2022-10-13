@@ -24,15 +24,21 @@ AddEventHandler('onResourceStart', function(resName)
             UpdateCheck()
         end
 
-        MySQL.query.await("CREATE TABLE IF NOT EXISTS `vehicles_offroad` (`model` bigint(20) NOT NULL, `comment` longtext DEFAULT NULL, PRIMARY KEY (`model`))")
+        if Config.EnableSQL then
+            if GetResourceState('oxmysql') == "started" then
+                MySQL.query.await("CREATE TABLE IF NOT EXISTS `vehicles_offroad` (`model` bigint(20) NOT NULL, `comment` longtext DEFAULT NULL, PRIMARY KEY (`model`))")
 
-        CreateThread(function()
-            while true do
-                refreshVehicles()
+                CreateThread(function()
+                    while true do
+                        refreshVehicles()
 
-                Wait(2 * 60 * 1000) -- 2 minutes
+                        Wait(2 * 60 * 1000) -- 2 minutes
+                    end
+                end)
+            else
+                print('If you enable SQL, oxmysql has to be started and installed!')
             end
-        end)
+        end
     end
 end)
 
@@ -41,44 +47,47 @@ RegisterCommand('offroad', function(source, args)
         local playerPed = GetPlayerPed(source)
 
         if args[1] == "add" or args[1] == "remove" then
-            -- Add or remove vehicle
-            local playerVehicle = GetVehiclePedIsIn(playerPed, false)
+            if Config.EnableSQL then
+                -- Add or remove vehicle
+                local playerVehicle = GetVehiclePedIsIn(playerPed, false)
 
-            if playerVehicle ~= 0 then
-                local vehicleModel = GetEntityModel(playerVehicle)
+                if playerVehicle ~= 0 then
+                    local vehicleModel = GetEntityModel(playerVehicle)
 
-                if args[1] == "add" then
-                    if not InTable(offroadVehicles, vehicleModel) then
-                        local comment = 'No comment'
+                    if args[1] == "add" then
+                        if not InTable(offroadVehicles, vehicleModel) then
+                            local comment = 'No comment'
 
-                        table.remove(args, 1)
+                            table.remove(args, 1)
 
-                        if args[1] then
-                            comment = table.concat(args, ' ')
+                            if args[1] then
+                                comment = table.concat(args, ' ')
+                            end
+
+                            MySQL.query.await('INSERT INTO vehicles_offroad SET model = ?, comment = ?',
+                                { vehicleModel, comment })
+
+
+                            TriggerClientEvent(clientEvent('showNotification'), source,
+                                "Vehicle has been added to the list.")
+                        else
+                            TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle already in list.")
                         end
-
-                        MySQL.query.await('INSERT INTO vehicles_offroad SET model = ?, comment = ?',
-                            { vehicleModel, comment })
-
-
-                        TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle has been added to the list.")
                     else
-                        TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle already in list.")
+                        if InTable(offroadVehicles, vehicleModel) then
+                            MySQL.query.await('DELETE FROM vehicles_offroad WHERE model = ?', { vehicleModel })
+
+                            TriggerClientEvent(clientEvent('showNotification'), source,
+                                "Vehicle has been removed from the list.")
+                        else
+                            TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle is not on list.")
+                        end
                     end
+
+                    refreshVehicles()
                 else
-                    if InTable(offroadVehicles, vehicleModel) then
-                        MySQL.query.await('DELETE FROM vehicles_offroad WHERE model = ?', { vehicleModel })
-
-                        TriggerClientEvent(clientEvent('showNotification'), source,
-                            "Vehicle has been removed from the list.")
-                    else
-                        TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle is not on list.")
-                    end
+                    TriggerClientEvent(clientEvent('showNotification'), source, "Unable to detect a vehicle.")
                 end
-
-                refreshVehicles()
-            else
-                TriggerClientEvent(clientEvent('showNotification'), source, "Unable to detect a vehicle.")
             end
         elseif args[1] == "debug" then
             TriggerClientEvent(clientEvent('toggleDebug'), source)
@@ -90,14 +99,19 @@ RegisterCommand('offroad', function(source, args)
                 local vehicleModel = GetEntityModel(playerVehicle)
 
                 if InTable(offroadVehicles, vehicleModel) then
-                    local comment = MySQL.scalar.await('SELECT comment FROM vehicles_offroad WHERE model = ?',
-                        { vehicleModel })
+                    local comment = nil
+
+                    if Config.EnableSQL then
+                        comment = MySQL.scalar.await('SELECT comment FROM vehicles_offroad WHERE model = ?',
+                            { vehicleModel })
+                    end
 
                     TriggerClientEvent(clientEvent('showNotification'), source,
-                        "Vehicle is on the list, comment: '" .. comment .. "'")
+                        "Vehicle is on the list" .. comment ~= nil and ", comment: '" .. comment .. "' (SQL)" or
+                        " (Config)")
                 else
                     TriggerClientEvent(clientEvent('showNotification'), source,
-                        "Vehicle is not added to the list, perhaps the class?")
+                        "Vehicle is not added to the list.")
                 end
             else
                 TriggerClientEvent(clientEvent('showNotification'), source, "Unable to detect a vehicle.")
