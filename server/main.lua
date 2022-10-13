@@ -20,6 +20,10 @@ end)
 
 AddEventHandler('onResourceStart', function(resName)
     if resourceName == resName then
+        if Config.UpdateCheck then
+            UpdateCheck()
+        end
+
         MySQL.query.await("CREATE TABLE IF NOT EXISTS `vehicles_offroad` (`model` bigint(20) NOT NULL, `comment` longtext DEFAULT NULL, PRIMARY KEY (`model`))")
 
         CreateThread(function()
