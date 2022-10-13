@@ -71,16 +71,21 @@ RegisterCommand('offroad', function(source, args)
                             TriggerClientEvent(clientEvent('showNotification'), source,
                                 "Vehicle has been added to the list.")
                         else
-                            TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle already in list.")
+                            TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle already on the list.")
                         end
                     else
                         if InTable(offroadVehicles, vehicleModel) then
-                            MySQL.query.await('DELETE FROM vehicles_offroad WHERE model = ?', { vehicleModel })
+                            if InTable(ModelsToHashKey(Config.BypassVehicles), vehicleModel) then
+                                TriggerClientEvent(clientEvent('showNotification'), source,
+                                    "Vehicle has to be removed from the configuration.")
+                            else
+                                MySQL.query.await('DELETE FROM vehicles_offroad WHERE model = ?', { vehicleModel })
 
-                            TriggerClientEvent(clientEvent('showNotification'), source,
-                                "Vehicle has been removed from the list.")
+                                TriggerClientEvent(clientEvent('showNotification'), source,
+                                    "Vehicle has been removed from the list.")
+                            end
                         else
-                            TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle is not on list.")
+                            TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle is not on the list.")
                         end
                     end
 
