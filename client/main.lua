@@ -102,15 +102,17 @@ CreateThread(function()
 			surfaceMaterial = (playerVehicle and playerVehicle ~= 0) and GetVehicleWheelSurfaceMaterial(playerVehicle, 1) or nil
 
 			if playerVehicle and surfaceMaterial then
-				SetTextScale(0.7, 0.7)
+				SetTextScale(0.65, 0.65)
 				SetTextFont(4)
 				SetTextProportional(1)
-				SetTextEntry("STRING")
-				SetTextCentre(1)
-				SetTextColour(255, 255, 255, 215)
-				AddTextComponentString('Currently ' ..
-					(InTable(Config.GripRoads, surfaceMaterial) and 'ON' or 'OFF') .. ' road, type: ' .. surfaceMaterial)
-				DrawText(0.5, 0.85)
+				SetTextCentre(true)
+				SetTextColour(255, 255, 255, 200)
+
+				AddTextEntry('debuggingOffroad', ('Currently ' ..
+					(InTable(Config.GripRoads, surfaceMaterial) and 'ON' or 'OFF') ..
+					' road, type: ' .. surfaceMaterial .. ', effect: ' .. tostring(Entity(playerVehicle).state['noGrip'])))
+				BeginTextCommandDisplayText('debuggingOffroad')
+				EndTextCommandDisplayText(0.5, 0.85)
 			end
 		else
 			Wait(5000)
@@ -125,5 +127,5 @@ TriggerEvent('chat:addSuggestion', '/offroad',
 			"add|remove|debug: do you want to add or remove the current vehicle? Debug will toggle debugging mode. (optional)" or
 			"debug: toggle debugging mode. (optional)" },
 	Config.EnableSQL and
-		{ name = "comment", help = "Do you want to add a comment in the database? (optional, action 'add' required)" }
+		{ name = "comment", help = "Do you want to add a comment in the database? (optional, action 'add' required)" } or nil
 })
