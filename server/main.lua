@@ -1,9 +1,9 @@
-local offroadVehicles = Config.BypassVehicles
+local offroadVehicles = ModelsToHashKey(Config.BypassVehicles)
 
 local function refreshVehicles()
     MySQL.query('SELECT model FROM vehicles_offroad', function(result)
         if result then
-            offroadVehicles = Config.BypassVehicles
+            offroadVehicles = ModelsToHashKey(Config.BypassVehicles)
 
             for i = 1, #result do
                 table.insert(offroadVehicles, result[i].model)
