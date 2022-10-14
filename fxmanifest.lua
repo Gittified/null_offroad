@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 games { 'gta5' }
 
-version 'v1.1.0' -- Do not modify
+version 'v1.2.0' -- Do not modify
 lua54 'yes'
 
 author 'Nullified'
