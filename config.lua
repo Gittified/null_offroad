@@ -60,3 +60,25 @@ Config.Roads = { 1, 4, 3, 7, 181, 15, 13, 55, 68, 69, 12, 31, 36, 35, 173, 64 }
 -- The effect of this variable can be pretty big, and there are also max values from where it will completely break. 
 -- Properly test your configuration!
 Config.IntensityMultiplier = 1
+
+--[[ Language Settings
+Change the values of the items below to modify the text and messages that the script is using.
+--]]
+
+Config.Language = {
+    ['command_usage'] = "Check if the current vehicle is added to the offroad list, or add/remove it from the list.",
+    ['command_param_action_nosql'] = "debug: toggle debugging mode. (optional)",
+    ['command_param_action_sql'] = "add|remove|debug: do you want to add or remove the current vehicle? Debug will toggle debugging mode. (optional)",
+    ['command_param_comment'] = "Do you want to add a comment in the database? (optional, action 'add' required)",
+
+    ['command_default_comment'] = "No comment",
+    ['command_vehicle_removed'] = "Vehicle has been removed from the list.",
+    ['command_vehicle_added'] = "Vehicle has been added to the list.",
+    ['command_vehicle_already_added'] = "Vehicle already on the list.",
+    ['command_vehicle_not_on_list'] = "Vehicle is not on the list.",
+    ['command_vehicle_in_config'] = "Vehicle has to be removed from the configuration.",
+    ['command_vehicle_not_found'] = "Unable to detect a vehicle.",
+    ['command_unexpected_param'] = "Unexpected parameter found at the first argument.",
+    ['command_vehicle_on_list'] = "Vehicle is on the list",
+
+}

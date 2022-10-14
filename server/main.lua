@@ -56,7 +56,7 @@ RegisterCommand('offroad', function(source, args)
 
                     if args[1] == "add" then
                         if not InTable(offroadVehicles, vehicleModel) then
-                            local comment = 'No comment'
+                            local comment = Config.Language.command_default_comment
 
                             table.remove(args, 1)
 
@@ -69,29 +69,31 @@ RegisterCommand('offroad', function(source, args)
 
 
                             TriggerClientEvent(clientEvent('showNotification'), source,
-                                "Vehicle has been added to the list.")
+                                Config.Language.command_vehicle_added)
                         else
-                            TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle already on the list.")
+                            TriggerClientEvent(clientEvent('showNotification'), source,
+                                Config.Language.command_vehicle_already_added)
                         end
                     else
                         if InTable(offroadVehicles, vehicleModel) then
                             if InTable(ModelsToHashKey(Config.BypassVehicles), vehicleModel) then
                                 TriggerClientEvent(clientEvent('showNotification'), source,
-                                    "Vehicle has to be removed from the configuration.")
+                                    Config.Language.command_vehicle_in_config)
                             else
                                 MySQL.query.await('DELETE FROM vehicles_offroad WHERE model = ?', { vehicleModel })
 
                                 TriggerClientEvent(clientEvent('showNotification'), source,
-                                    "Vehicle has been removed from the list.")
+                                    Config.Language.command_vehicle_removed)
                             end
                         else
-                            TriggerClientEvent(clientEvent('showNotification'), source, "Vehicle is not on the list.")
+                            TriggerClientEvent(clientEvent('showNotification'), source,
+                                Config.Language.command_vehicle_not_on_list)
                         end
                     end
 
                     refreshVehicles()
                 else
-                    TriggerClientEvent(clientEvent('showNotification'), source, "Unable to detect a vehicle.")
+                    TriggerClientEvent(clientEvent('showNotification'), source, Config.Language.command_vehicle_not_found)
                 end
             end
         elseif args[1] == "debug" then
@@ -112,19 +114,19 @@ RegisterCommand('offroad', function(source, args)
                     end
 
                     TriggerClientEvent(clientEvent('showNotification'), source,
-                        "Vehicle is on the list" .. (comment ~= nil and ", comment: '" .. comment .. "' (SQL)" or
+                        Config.Language.command_vehicle_on_list .. (comment ~= nil and ", comment: '" .. comment .. "' (SQL)" or
                             " (Config)"))
                 else
                     TriggerClientEvent(clientEvent('showNotification'), source,
-                        "Vehicle is not added to the list.")
+                        Config.Language.command_vehicle_not_on_list)
                 end
             else
-                TriggerClientEvent(clientEvent('showNotification'), source, "Unable to detect a vehicle.")
+                TriggerClientEvent(clientEvent('showNotification'), source, Config.Language.command_vehicle_not_found)
             end
         else
             -- Invalid arguments
             TriggerClientEvent(clientEvent('showNotification'), source,
-                "Unexpected parameter found at the first argument.")
+                Config.Language.command_unexpected_param)
         end
     else
         print('This command can only be used as a player!')

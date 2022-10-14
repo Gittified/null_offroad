@@ -126,11 +126,11 @@ CreateThread(function()
 end)
 
 TriggerEvent('chat:addSuggestion', '/offroad',
-	'Check if the current vehicle is added to the offroad list, or add/remove it from the list.', {
+	Config.Language.command_usage, {
 	{ name = "action",
 		help = Config.EnableSQL and
-			"add|remove|debug: do you want to add or remove the current vehicle? Debug will toggle debugging mode. (optional)" or
-			"debug: toggle debugging mode. (optional)" },
+			Config.Language.command_param_action_sql or
+			Config.Language.command_param_action_nosql },
 	Config.EnableSQL and
-		{ name = "comment", help = "Do you want to add a comment in the database? (optional, action 'add' required)" } or nil
+		{ name = "comment", help = Config.Language.command_param_comment } or nil
 })
