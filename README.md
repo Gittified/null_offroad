@@ -9,7 +9,7 @@ The script includes adding specific vehicle models to the bypass list, I made a 
 
 The command includes a debug option, you can turn this on (will reduce performance drastically on the person who has it enabled) to see if you are driving on a road, what material the road is and if the effect is applied. You can add the material number to the Config.GripRoads array to include them as roads.
 
-If you know what you are doing, feel free to adjust [these 3 lines](https://github.com/Gittified/null_offroad/blob/main/client/main.lua#L63-L65) to change the effect of the script. The script could have problems if you changed the sv_filterRequestControl server variable.
+If you know what you are doing, feel free to adjust [these 6 lines](https://github.com/Gittified/null_offroad/blob/main/client/main.lua#L63-L68) to change the effect of the script. The script could have problems if you changed the sv_filterRequestControl server variable.
 
 ## Features
 
