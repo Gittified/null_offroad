@@ -25,7 +25,7 @@ CreateThread(function()
 
 		-- Is player in any vehicle?
 		if IsPedInAnyVehicle(playerPed, false) and playerDriver then
-			if InTable(Config.GripRoads, surfaceMaterial) then
+			if InTable(Config.Roads, surfaceMaterial) then
 				-- Check if the slippery should go away
 				if Entity(playerVehicle).state['noGrip'] and DoesEntityExist(playerVehicle) then
 					Entity(playerVehicle).state:set('noGrip', false)
@@ -46,7 +46,7 @@ CreateThread(function()
 					Wait(500)
 				end
 			else
-				if not (InTable(Config.OffroadClass, vehicleClass) or InTable(offroadVehicles, vehicleModel)) and
+				if not (InTable(Config.BypassVehicleClasses, vehicleClass) or InTable(offroadVehicles, vehicleModel)) and
 					not Entity(playerVehicle).state['noGrip'] and DoesEntityExist(playerVehicle) then
 					-- Make grip go away!
 
@@ -60,9 +60,12 @@ CreateThread(function()
 					Entity(playerVehicle).state:set('defaultCurveMin', defaultCurveMin)
 					Entity(playerVehicle).state:set('defaultTractionLoss', defaultTractionLoss)
 
-					SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fTractionCurveMax', defaultCurveMax - 1.2)
-					SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fTractionCurveMin', defaultCurveMin - 1.1)
-					SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fLowSpeedTractionLossMult', defaultTractionLoss + 1.0)
+					SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fTractionCurveMax',
+						defaultCurveMax - (1.2 * Config.IntensityMultiplier))
+					SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fTractionCurveMin',
+						defaultCurveMin - (1.1 * Config.IntensityMultiplier))
+					SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fLowSpeedTractionLossMult',
+						defaultTractionLoss + (1.0 * Config.IntensityMultiplier))
 
 					ModifyVehicleTopSpeed(playerVehicle, 1.0)
 
@@ -110,7 +113,7 @@ CreateThread(function()
 				SetTextColour(255, 255, 255, 200)
 
 				AddTextEntry('debuggingOffroad', ('Currently ' ..
-					(InTable(Config.GripRoads, surfaceMaterial) and 'ON' or 'OFF') ..
+					(InTable(Config.Roads, surfaceMaterial) and 'ON' or 'OFF') ..
 					' road, type: ' ..
 					surfaceMaterial .. ', effect: ' .. tostring(Entity(playerVehicle).state['noGrip'] and 'ON' or 'OFF')))
 				BeginTextCommandDisplayText('debuggingOffroad')
