@@ -42,7 +42,7 @@ If you would like to see more features added, please reply on the [FiveM post](h
 
 If you are experiencing any trouble while using the script, please reply to the FiveM post or create an issue on the GitHub page. If you think you can solve the issue yourself feel free to open a pull request. Any other contributions are also welcome.
 
-*For questions and requests you can add me on Discord: `Nullified#3306`*
+*For questions and requests you can add me on Discord: `nullifiedd`*
 
 ## License
 
