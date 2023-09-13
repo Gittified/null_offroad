@@ -47,7 +47,7 @@ CreateThread(function()
 				end
 			else
 				if not (InTable(Config.BypassVehicleClasses, vehicleClass) or InTable(offroadVehicles, vehicleModel)) and
-					not Entity(playerVehicle).state['noGrip'] and DoesEntityExist(playerVehicle) then
+						not Entity(playerVehicle).state['noGrip'] and DoesEntityExist(playerVehicle) then
 					-- Make grip go away!
 
 					NetworkRequestControlOfEntity(playerVehicle)
@@ -103,12 +103,12 @@ CreateThread(function()
 
 		if LocalPlayer.state['debuggingOffroad'] then
 			playerVehicle = GetVehiclePedIsIn(playerPed, false)
-			surfaceMaterial = (playerVehicle and playerVehicle ~= 0) and GetVehicleWheelSurfaceMaterial(playerVehicle, 1) or nil
+			surfaceMaterial = (playerVehicle and playerVehicle ~= 0) and GetVehicleWheelSurfaceMaterial(playerVehicle, 1) or
+			nil
 
 			if playerVehicle and surfaceMaterial then
 				SetTextScale(0.65, 0.65)
 				SetTextFont(4)
-				SetTextProportional(1)
 				SetTextCentre(true)
 				SetTextColour(255, 255, 255, 200)
 
@@ -127,10 +127,12 @@ end)
 
 TriggerEvent('chat:addSuggestion', '/offroad',
 	Config.Language.command_usage, {
-	{ name = "action",
-		help = Config.EnableSQL and
-			Config.Language.command_param_action_sql or
-			Config.Language.command_param_action_nosql },
-	Config.EnableSQL and
+		{
+			name = "action",
+			help = Config.EnableSQL and
+					Config.Language.command_param_action_sql or
+					Config.Language.command_param_action_nosql
+		},
+		Config.EnableSQL and
 		{ name = "comment", help = Config.Language.command_param_comment } or nil
-})
+	})
