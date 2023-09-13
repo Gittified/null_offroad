@@ -46,8 +46,8 @@ CreateThread(function()
 					Wait(500)
 				end
 			else
-				if not (InTable(Config.BypassVehicleClasses, vehicleClass) or InTable(offroadVehicles, vehicleModel)) and
-						not Entity(playerVehicle).state['noGrip'] and DoesEntityExist(playerVehicle) then
+				if not (InTable(Config.BypassVehicleClasses, vehicleClass) or InTable(offroadVehicles, vehicleModel)) and DoesEntityExist(playerVehicle) and
+						not Entity(playerVehicle).state['noGrip'] then
 					-- Make grip go away!
 
 					NetworkRequestControlOfEntity(playerVehicle)
@@ -104,7 +104,7 @@ CreateThread(function()
 		if LocalPlayer.state['debuggingOffroad'] then
 			playerVehicle = GetVehiclePedIsIn(playerPed, false)
 			surfaceMaterial = (playerVehicle and playerVehicle ~= 0) and GetVehicleWheelSurfaceMaterial(playerVehicle, 1) or
-			nil
+					nil
 
 			if playerVehicle and surfaceMaterial then
 				SetTextScale(0.65, 0.65)
