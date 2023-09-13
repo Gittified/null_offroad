@@ -3,13 +3,14 @@
 This script will adjust the handling of a specific vehicle when they go off-road, making it harder to accelerate, steer and break. It is completely standalone but can be integrated into a framework easily. 
 
 ## How does it work?
+
 This script will reduce grip, breaking and steering when driving offroad with a vehicle that should not be able to do that. By default I only configured the “Offroad” vehicle class to bypass the script, but you can add classes from the list found [here](https://docs.fivem.net/natives/?_0x29439776AAA00A62), just add the number to the array.
 
-The script includes adding specific vehicle models to the bypass list, I made a user-friendly command to do so. All you have to do is step into the vehicle and use the **/offroad** command. The command also includes checking the current status and all vehicles you add are saved in a database table. The script creates this table for your convenience. Please note that adding vehicles in runtime only works when the SQL option is enabled. You can always configure vehicles directly in the configuration if you prefer that. 
+The script includes adding specific vehicle models to the bypass list, I made a user-friendly command to do so. All you have to do is step into the vehicle and use the **/offroad** command. The command also includes checking the current status and all vehicles you add are saved in a database table. The script creates this table for your convenience. Please note that adding vehicles in runtime only works when the SQL option is enabled. You can always configure vehicles directly in the configuration if you prefer that.
 
-The command includes a debug option, you can turn this on (will reduce performance drastically on the person who has it enabled) to see if you are driving on a road, what material the road is and if the effect is applied. You can add the material number to the Config.GripRoads array to include them as roads.
+The command includes a debug option, you can turn this on (will reduce performance drastically on the person who has it enabled) to see if you are driving on a road, what material the road is and if the effect is applied. You can add the material number to the Config.GripRoads array to include them as roads. In order to use this command, the user is required to have the ``command.offroad`` [ace](https://forum.cfx.re/t/basic-aces-principals-overview-guide/90917) granted.
 
-If you know what you are doing, feel free to adjust [these 6 lines](https://github.com/Gittified/null_offroad/blob/main/client/main.lua#L63-L68) to change the effect of the script. The script could have problems if you changed the sv_filterRequestControl server variable.
+If you know what you are doing, feel free to adjust [these 6 lines](https://github.com/Gittified/null_offroad/blob/main/client/main.lua#L63-L68) to change the effect of the script. The script could have problems if you changed the sv_filterRequestControl server variable, but this is untested.
 
 ## Features
 
