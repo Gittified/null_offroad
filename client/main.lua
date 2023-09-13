@@ -27,7 +27,7 @@ CreateThread(function()
 		if IsPedInAnyVehicle(playerPed, false) and playerDriver then
 			if InTable(Config.Roads, surfaceMaterial) then
 				-- Check if the slippery should go away
-				if Entity(playerVehicle).state['noGrip'] and DoesEntityExist(playerVehicle) then
+				if DoesEntityExist(playerVehicle) and Entity(playerVehicle).state['noGrip'] then
 					Entity(playerVehicle).state:set('noGrip', false)
 
 					NetworkRequestControlOfEntity(playerVehicle)
