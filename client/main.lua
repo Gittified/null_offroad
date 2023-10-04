@@ -1,4 +1,5 @@
 local playerPed, playerVehicle, playerDriver, vehicleClass, vehicleModel, surfaceMaterial = nil, nil, nil, nil, nil, nil
+local intensityType = type(Config.IntensityMultiplier)
 local offroadVehicles = {}
 
 AddEventHandler('onResourceStart', function(resName)
@@ -19,12 +20,20 @@ RegisterNetEvent(clientEvent('showNotification'), function(message)
 	Config.Notification(message)
 end)
 
+local function getIntensityMultiplier()
+	if intensityType == "number" then
+		return Config.IntensityMultiplier or 1.0
+	end
+
+	return Config.IntensityMultiplier[surfaceMaterial] or Config.IntensityMultiplier.global or 1.0
+end
+
 CreateThread(function()
 	while true do
 		Wait(200)
 
 		-- Is player in any vehicle?
-		if IsPedInAnyVehicle(playerPed, false) and playerDriver then
+		if IsPedInAnyVehicle(playerPed, false) and playerDriver and not InTable(Config.BypassWheels, GetVehicleWheelType(playerVehicle)) then
 			if InTable(Config.Roads, surfaceMaterial) then
 				-- Check if the slippery should go away
 				if DoesEntityExist(playerVehicle) and Entity(playerVehicle).state['noGrip'] then
@@ -60,12 +69,14 @@ CreateThread(function()
 					Entity(playerVehicle).state:set('defaultCurveMin', defaultCurveMin)
 					Entity(playerVehicle).state:set('defaultTractionLoss', defaultTractionLoss)
 
+					local invensityMultiplier = getIntensityMultiplier()
+
 					SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fTractionCurveMax',
-						defaultCurveMax - (1.2 * Config.IntensityMultiplier))
+						defaultCurveMax - (1.2 * invensityMultiplier))
 					SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fTractionCurveMin',
-						defaultCurveMin - (1.1 * Config.IntensityMultiplier))
+						defaultCurveMin - (1.1 * invensityMultiplier))
 					SetVehicleHandlingFloat(playerVehicle, 'CHandlingData', 'fLowSpeedTractionLossMult',
-						defaultTractionLoss + (1.0 * Config.IntensityMultiplier))
+						defaultTractionLoss + (1.0 * invensityMultiplier))
 
 					ModifyVehicleTopSpeed(playerVehicle, 1.0)
 
@@ -115,7 +126,7 @@ CreateThread(function()
 				AddTextEntry('debuggingOffroad', ('Currently ' ..
 					(InTable(Config.Roads, surfaceMaterial) and 'ON' or 'OFF') ..
 					' road, type: ' ..
-					surfaceMaterial .. ', effect: ' .. tostring(Entity(playerVehicle).state['noGrip'] and 'ON' or 'OFF')))
+					surfaceMaterial .. ', effect: ' .. tostring(Entity(playerVehicle).state['noGrip'] and 'ON' or 'OFF') .. ', intensity (multiplier): ' .. getIntensityMultiplier()))
 				BeginTextCommandDisplayText('debuggingOffroad')
 				EndTextCommandDisplayText(0.5, 0.85)
 			end
