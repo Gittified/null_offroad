@@ -6,7 +6,7 @@ Config = {}
 --               / __ \/ / / / / /   / __ \/ /_/ /_/ ___/ __ \/ __ `/ __  /              --
 --              / / / / /_/ / / /   / /_/ / __/ __/ /  / /_/ / /_/ / /_/ /               --
 --             /_/ /_/\__,_/_/_/____\____/_/ /_/ /_/   \____/\__,_/\__,_/                --
---               v1.2.0       /_____/           Made by Nullified                        --
+--               v1.3.0       /_____/           Made by Nullified                        --
 -------------------------------------------------------------------------------------------
 
 --[[ General Information & Required variables
@@ -53,13 +53,22 @@ Config.BypassVehicles = {}
 -- The list of possible vehicle classes can be found here: https://docs.fivem.net/natives/?_0x29439776AAA00A62
 Config.BypassVehicleClasses = { 9 }
 
--- Material types that should not cause any grip loss. You can find these numbers in the debugger.
+-- These wheel types are completely immune to the effects of the script.
+-- The list of possible wheel types can be found here: https://docs.fivem.net/natives/?_0xB3ED1BFB4BE636DC
+Config.BypassWheels = { 4 }
+
+-- Material types that should not cause loss of grip. You can find these numbers using the debug command.
 Config.Roads = { 0, 1, 4, 3, 7, 181, 15, 13, 55, 68, 69, 12, 31, 36, 35, 173, 64, 70, 86 }
 
 -- This will multiply the intensity of the effect that is applied when a vehicle goes off-road. The default is 1 for none.
 -- The effect of this variable can be pretty big, and there are also max values from where it will completely break.
--- Properly test your configuration!
-Config.IntensityMultiplier = 1
+--[[ Since v1.3.0, this also supports multipliers per material type, this will require a different configuration object:
+Config.IntensityMultiplier = {
+    global = 1.0
+    [2] = 2.0
+}]]
+-- This is an example, test and adjust appropriately
+Config.IntensityMultiplier = 1.0
 
 --[[ Language Settings
 Change the values of the items below to modify the text and messages that the script is using.
