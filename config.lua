@@ -60,6 +60,12 @@ Config.BypassWheels = { 4 }
 -- Material types that should not cause loss of grip. You can find these numbers using the debug command.
 Config.Roads = { 0, 1, 4, 3, 7, 181, 15, 13, 55, 68, 69, 12, 31, 36, 35, 173, 64, 70, 86 }
 
+-- The following setting allows you to add modifiers to the effects of this script based on the vehicle class.
+-- If these classes are also included in Config.BypassVehicleClasses, the modifier has no effect.
+Config.VehicleClassIntensity = {
+    [9] = 1.0
+}
+
 -- This will multiply the intensity of the effect that is applied when a vehicle goes off-road. The default is 1 for none.
 -- The effect of this variable can be pretty big, and there are also max values from where it will completely break.
 --[[ Since v1.3.0, this also supports multipliers per material type, this will require a different configuration object:
@@ -77,7 +83,8 @@ Change the values of the items below to modify the text and messages that the sc
 Config.Language = {
     ['command_usage'] = "Check if the current vehicle is added to the offroad list, or add/remove it from the list.",
     ['command_param_action_nosql'] = "debug: toggle debugging mode. (optional)",
-    ['command_param_action_sql'] = "add|remove|debug: do you want to add or remove the current vehicle? Debug will toggle debugging mode. (optional)",
+    ['command_param_action_sql'] =
+    "add|remove|debug: do you want to add or remove the current vehicle? Debug will toggle debugging mode. (optional)",
     ['command_param_comment'] = "Do you want to add a comment in the database? (optional, action 'add' required)",
 
     ['command_default_comment'] = "No comment",
