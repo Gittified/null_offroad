@@ -25,7 +25,10 @@ local function getIntensityMultiplier()
 		return Config.IntensityMultiplier or 1.0
 	end
 
-	return Config.IntensityMultiplier[surfaceMaterial] or Config.IntensityMultiplier.global or 1.0
+	local roadMultiplier = Config.IntensityMultiplier[surfaceMaterial] or Config.IntensityMultiplier.global or 1.0
+	local classMultiplier = Config.BypassVehicleClasses[vehicleClass] or 1.0
+
+	return roadMultiplier * classMultiplier
 end
 
 CreateThread(function()
